@@ -411,6 +411,13 @@ class _SlyEditorPageState extends State<SlyEditorPage> {
           flipImage: flipImage,
         );
       case 4:
+        return SlyControlsListView(
+          key: const Key('colorControls'),
+          attributes: _editedImage.colorAttributes,
+          history: history,
+          updateImage: updateImage,
+        );
+      case 5:
         return SlyShareControls(
           getSaveMetadata: () => _saveMetadata,
           setSaveMetadata: (value) => _saveMetadata = value,
@@ -651,7 +658,7 @@ class _SlyEditorPageState extends State<SlyEditorPage> {
                                               : histogram,
                                           Expanded(child: controlsView),
                                           _selectedPageIndex != 3 &&
-                                                  _selectedPageIndex != 4
+                                                  _selectedPageIndex != 5
                                               ? toolbar
                                               : Container(),
                                         ],
@@ -709,7 +716,7 @@ class _SlyEditorPageState extends State<SlyEditorPage> {
                                 ],
                               )
                             : ListView(
-                                children: _selectedPageIndex == 4
+                                children: _selectedPageIndex == 5
                                     ? <Widget>[
                                         imageView,
                                         controlsView,

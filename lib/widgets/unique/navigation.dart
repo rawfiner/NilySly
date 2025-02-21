@@ -41,6 +41,7 @@ class SlyNavigationRail extends StatelessWidget {
           _getDestination('Color', 'assets/icons/color.webp'),
           _getDestination('Effects', 'assets/icons/effects.webp'),
           _getDestination('Crop', 'assets/icons/crop.webp'),
+          _getDestination('Proj.', 'assets/icons/projection.webp'),
           _getDestination('Share', 'assets/icons/save.webp'),
         ],
       );
@@ -84,6 +85,7 @@ class SlyNavigationBar extends StatelessWidget {
           _getDestination('Color', 'assets/icons/color.webp'),
           _getDestination('Effects', 'assets/icons/effects.webp'),
           _getDestination('Crop', 'assets/icons/crop.webp'),
+          _getDestination('Proj.', 'assets/icons/projection.webp'),
           _getDestination('Share', 'assets/icons/save.webp'),
           FloatingActionButton.small(
             shape: const CircleBorder(),
