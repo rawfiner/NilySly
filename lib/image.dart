@@ -142,6 +142,10 @@ class SlyImage {
     'rotation': SlyOverflowAttribute('Rotation', 0, 0, 4),
   };
 
+  Map<String, SlyRangeAttribute> projAttributes = {
+    'focal': SlyRangeAttribute('Focal length (equiv. 35mm)', 13, 13, 10, 30),
+  };
+
   SlyRangeAttribute get exposure => lightAttributes['exposure']!;
   SlyRangeAttribute get brightness => lightAttributes['brightness']!;
   SlyRangeAttribute get contrast => lightAttributes['contrast']!;
@@ -165,6 +169,8 @@ class SlyImage {
       geometryAttributes['vflip']! as SlyBoolAttribute;
   SlyOverflowAttribute get rotation =>
       geometryAttributes['rotation']! as SlyOverflowAttribute;
+
+  SlyRangeAttribute get focal => projAttributes['focal']!;
 
   int get width => _image.width;
   int get height => _image.height;

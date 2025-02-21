@@ -412,8 +412,8 @@ class _SlyEditorPageState extends State<SlyEditorPage> {
         );
       case 4:
         return SlyControlsListView(
-          key: const Key('colorControls'),
-          attributes: _editedImage.colorAttributes,
+          key: const Key('projControls'),
+          attributes: _editedImage.projAttributes,
           history: history,
           updateImage: updateImage,
         );
