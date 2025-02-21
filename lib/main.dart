@@ -41,7 +41,7 @@ class SlyApp extends StatelessWidget {
         }
 
         return MaterialApp(
-          title: 'Sly',
+          title: 'Nily Sly',
           home: const SlyHomePage(title: 'Home'),
           debugShowCheckedModeBanner: false,
           themeMode: style,
