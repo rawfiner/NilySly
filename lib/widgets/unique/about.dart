@@ -39,7 +39,7 @@ can be viewed [here](slycallback://0).
                           ),
                           const Expanded(
                             child: LicensePage(
-                              applicationLegalese: '© 2024 kramo',
+                              applicationLegalese: '© 2024-2025 kramo, rawfiner',
                               applicationIcon: ImageIcon(
                                 size: 96,
                                 color: Colors.deepOrangeAccent,
