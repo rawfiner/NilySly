@@ -143,7 +143,7 @@ class SlyImage {
   };
 
   Map<String, SlyRangeAttribute> projAttributes = {
-    'focal': SlyRangeAttribute('Focal length (equiv. 35mm)', 13, 13, 10, 30),
+    'sensor_focal_ratio': SlyRangeAttribute('Sensor/Focal (in mm, equiv. 35mm)', 0, 0, 0, 3),
   };
 
   SlyRangeAttribute get exposure => lightAttributes['exposure']!;
@@ -170,7 +170,7 @@ class SlyImage {
   SlyOverflowAttribute get rotation =>
       geometryAttributes['rotation']! as SlyOverflowAttribute;
 
-  SlyRangeAttribute get focal => projAttributes['focal']!;
+  SlyRangeAttribute get sensor_focal_ratio => projAttributes['sensor_focal_ratio']!;
 
   int get width => _image.width;
   int get height => _image.height;
@@ -551,6 +551,67 @@ class SlyImage {
               ? img.ColorRgb8(255, 255, 255)
               : img.ColorRgb8(0, 0, 0),
           padding: (border.value.abs() * (editableImage.width / 3)).round());
+    }
+
+    if (sensor_focal_ratio.value != 0) {
+      int width = editableImage.width;
+      int height = editableImage.height;
+      final input = editableImage.clone();
+      int max_dim = width;
+      if (height > max_dim)
+        max_dim = height;
+      double ratio_per_pixel = sensor_focal_ratio.value / max_dim;
+      List<double> reduction_factors = List<double>.filled(max_dim, 0.0);
+      for (var i = 0; i < max_dim; i++)
+      {
+        double ratio = ratio_per_pixel * i;
+        double reduc = 1.0 + 0.25 * ratio * ratio; // approx of ratio / atan(ratio);
+        reduction_factors[i] = reduc;
+      }
+
+      for (var i = 0; i < height; i++) {
+        int h2 = (height / 2).round();
+        int i_half;
+        int i_src;
+        if(i < height / 2) {
+          i_half = h2-i;
+          var reduction_factor_i = reduction_factors[i_half];
+          i_src = (h2 - i_half * reduction_factor_i).round();
+        } else {
+          i_half = i-h2;
+          var reduction_factor_i = reduction_factors[i_half];
+          i_src = (i_half * reduction_factor_i + h2).round();
+        }
+        if (i_src < 0)
+          i_src = 0;
+        if (i_src >= height)
+          i_src = height-1;
+
+        for (var j = 0; j < width; j++) {
+          int w2 = (width / 2).round();
+          int j_half;
+          int j_src;
+          if(j < width / 2) {
+            j_half = w2-j;
+            var reduction_factor_j = reduction_factors[j_half];
+            j_src = (w2 - j_half * reduction_factor_j).round();
+          } else {
+            j_half = j-w2;
+            var reduction_factor_j = reduction_factors[j_half];
+            j_src = (j_half * reduction_factor_j + w2).round();
+          }
+          if (j_src < 0)
+            j_src = 0;
+          if (j_src >= width)
+            j_src = width-1;
+          
+          var inpixel = input.getPixel(j_src, i_src);
+          var outpixel = editableImage.getPixel(j, i);
+          outpixel.r = inpixel.r;
+          outpixel.g = inpixel.g;
+          outpixel.b = inpixel.b;
+        }
+      }
     }
 
     return cmd;
